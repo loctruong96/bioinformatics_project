@@ -7,7 +7,8 @@ check the output folder of multiMutant for the following
 * if the expected mutant PDB files exists
 * if the expected mutant energy minimized PDB file exists
 * if each mutant has the correct mutated residue
-* if each mutant pdb and output fasta matched.
+* if there exists only one mutation per fasta
+* if each mutant pdb and output fasta matched
 * if energy minimization is performed by comparing WT pdb and mutated_em pdb's non mutated atom
 * if missing fasta are only the duplicated
 """
@@ -81,6 +82,7 @@ def mutation_phase_1_test(output_dir, protein):
     failed = []
     fasta_count = 0
     load_original_pdb = False
+    print('Begin phase 1 multiMutant output test:')
     for d in tqdm(result_dirs):
         fasta = f'{d}/{d}.fasta.txt'
         pdb = f'{d}/{d}.pdb'
@@ -94,7 +96,6 @@ def mutation_phase_1_test(output_dir, protein):
             assert os.path.exists(f"{protein}.fasta")
             load_original_pdb = True
         original_fasta = read_proper_fasta(f"{protein}.fasta")
-
         # count from 0
         residue = int(d[6:][:2]) - 1
         mutation = d[6:][2:]
@@ -104,6 +105,8 @@ def mutation_phase_1_test(output_dir, protein):
                 for line in file_in:
                     fasta_c = line.strip().upper()
             assert fasta_c[residue] == mutation, 'mismatched mutation'
+            assert len(original_fasta) - len([item for i, item in enumerate(fasta_c) if i != residue
+                                              and item == original_fasta[i]]) == 1, f'detected more than one mutation.'
             assert os.path.exists(pdb), 'mutated pdb does not exists.'
             os.system(f'echo load {pdb} > pymol_script.pml')
             os.system(f'echo save test.fasta >> pymol_script.pml')
@@ -123,13 +126,14 @@ def mutation_phase_1_test(output_dir, protein):
         os.system('rm pymol_script.pml')
     if os.path.exists('test.fasta'):
         os.system('rm test.fasta')
-    return failed
+    return failed, result_dirs
 
 
 if __name__ == '__main__':
     args = get_args()
-    failed_mutation = mutation_phase_1_test(args.output_dir, args.protein)
-    assert len(failed_mutation) == 0, f'the {len(failed_mutation)} mutations failed {failed_mutation}'
+    failed_mutations, successful_mutation_dirs = mutation_phase_1_test(args.output_dir, args.protein)
+    assert len(failed_mutations) == 0, f'the {len(failed_mutations)} mutations failed {failed_mutations}'
+    print(f'Found {len(successful_mutation_dirs)} successful mutations and {len(failed_mutations)} failed mutations.')
 
 
 
