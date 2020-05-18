@@ -12,6 +12,7 @@ count = 0
 for d in tqdm(result_dirs):
     fasta = f'{d}/{d}.fasta.txt'
     pdb = f'{d}/{d}.pdb'
+    em_pdb = f'{d}/{d}_em.pdb'
     # count from 0
     residue = int(d[6:][:2]) - 1
     mutation = d[6:][2:]
@@ -24,6 +25,8 @@ for d in tqdm(result_dirs):
         assert fasta_c[residue] == mutation, 'mismatched mutation'
         if os.path.exists('pymol_script.pml'):
             os.system('rm pymol_script.pml')
+        assert os.path.exists(pdb), 'mutated pdb does not exists.'
+        assert os.path.exists(em_pdb), 'mutated_em pdb does not exists.'
         os.system(f'echo load {pdb} >> pymol_script.pml')
         os.system(f'echo save test.fasta >> pymol_script.pml')
         os.system('pymol pymol_script.pml -qc')
@@ -39,5 +42,5 @@ for d in tqdm(result_dirs):
     else:
         failed.append(fasta)
 
-print(f'fasta count {count}, expected {len(result_dirs)}.')
+print(f'fasta count {count}, total {len(result_dirs)}.')
 print(failed)
