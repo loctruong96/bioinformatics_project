@@ -81,7 +81,7 @@ def read_proper_fasta(filepath):
 
 
 def mutation_and_rigidity_test(output_dir=None, protein=None, chain=None, start=1, end=0, test_em=True,
-                               test_rigidity=False):
+                               test_rigidity=False, local_pdb=False):
     assert start >= 1, 'count from 0, start must >= 1'
     assert os.path.exists(output_dir), f'{output_dir} directory does not exists.'
     if os.path.exists('pymol.log'):
@@ -105,7 +105,7 @@ def mutation_and_rigidity_test(output_dir=None, protein=None, chain=None, start=
         fasta = f'{d}/{d}.fasta.txt'
         pdb = f'{d}/{d}.pdb'
         em_pdb = f'{d}/{d}_em.pdb'
-        if not load_original_pdb:
+        if not load_original_pdb and not local_pdb:
             os.system(f'wget -q -O "{protein}.pdb" "https://files.rcsb.org/download/{protein}.pdb"')
             assert os.path.exists(f"{protein}.pdb")
             os.system(f'echo load {protein}.pdb > pymol_script.pml')
@@ -113,7 +113,10 @@ def mutation_and_rigidity_test(output_dir=None, protein=None, chain=None, start=
             os.system('pymol pymol_script.pml -qc >> pymol.log')
             assert os.path.exists(f"{protein}.fasta")
             load_original_pdb = True
-        original_fasta = read_proper_fasta(f"{protein}.fasta")
+            original_fasta = read_proper_fasta(f"{protein}.fasta")
+        if local_pdb:
+            assert os.path.exists(f'../promute/{protein}.fasta'), 'local fasta not found'
+            original_fasta = read_proper_fasta(f'../promute/{protein}.fasta')
         # count from 0
         residue = mutations[z][0] - 1
         mutation = mutations[z][1]
