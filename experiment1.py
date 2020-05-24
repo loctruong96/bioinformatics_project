@@ -35,15 +35,5 @@ for sequence in sequences:
     os.system(f'./sequentialPipelineInvocation.sh')
     print(f'command took {round(time.time() - start)} seconds.')
     os.chdir('..')
-    print(f'begin testing output for sequence: {sequence}')
-    failed_mutations, successful_mutation_dirs = mutation_and_rigidity_test(output_dir=output_folder_name,
-                                                                            protein=sequence,
-                                                                            chain=chain,
-                                                                            start=start_index+1,
-                                                                            end=end_index+1,
-                                                                            test_em=True,
-                                                                            test_rigidity=True)
-    assert len(failed_mutations) == 0, f'the {len(failed_mutations)} mutations failed {failed_mutations}'
-    print(f'finished with {sequence}, taken + {round(time.time()-start)} seconds.')
 
 print(f'total time taken {round(time.time()-start)} seconds.')
