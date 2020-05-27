@@ -1,12 +1,8 @@
 # bioinformatics_project
 
-#multiMultiMutant.sh
+Call ./aggregateLogs.sh to regenerate all of the processed csv files found in ./processed_data/
 
-To use this script, place it in the multiMutant repo, in the same directory as the original multiMutant.sh
-It takes the following parameters: pdbID, chainID startResidue:endResidue numMutations, -flags
-Example call: ./multiMultiMutant.sh 1HHP A 40:45 2 -em
+or recreate them individually with
 
-This will mutate residues 40-45 of 1HHP chain A, and perform energy mimimization. It will do this for all possible 2 point mutations within the given residue range.
-
-In addition, this script makes parellel calls to promute.
-
+call ./aggregate_py/aggregate_raw_XXX_data.py PDBID
+where XXX is either "em_step", "ra_cluster" or "ra_constraint" and PDBID is the id of the PDB that has output in ./preliminary_exp_output
