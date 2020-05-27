@@ -1,5 +1,5 @@
 Charmrun> scalable start enabled. 
-Charmrun> started all node programs in 0.005 seconds.
+Charmrun> started all node programs in 0.003 seconds.
 Converse/Charm++ Commit ID: v6.7.1-0-gbdf6a1b-namd-charm-6.7.1-build-2016-Nov-07-136676
 Warning> Randomization of stack pointer is turned on in kernel, thread migration may not work! Run 'echo 0 > /proc/sys/kernel/randomize_va_space' as root to disable it, or try run with '+isomalloc_sync'.  
 Charm++> scheduler running in netpoll mode.
@@ -19,7 +19,7 @@ Info: Built Wed Dec 21 11:36:45 CST 2016 by jim on harare.ks.uiuc.edu
 Info: 1 NAMD  2.12  Linux-x86_64  1    linux-01  truongl
 Info: Running on 1 processors, 1 nodes, 1 physical nodes.
 Info: CPU topology information available.
-Info: Charm++/Converse parallel runtime startup completed at 0.00319219 s
+Info: Charm++/Converse parallel runtime startup completed at 0.00172091 s
 Info: 41.0312 MB of memory in use based on /proc/self/stat
 Info: Configuration file is namd-temp.namd
 Info: Working in the current directory /home/truongl/multiMutant/regular/promute/external/em
@@ -67,7 +67,7 @@ Info: TIMING OUTPUT STEPS    5000
 Info: USING VERLET I (r-RESPA) MTS SCHEME.
 Info: C1 SPLITTING OF LONG RANGE ELECTROSTATICS
 Info: PLACING ATOMS IN PATCHES BY HYDROGEN GROUPS
-Info: RANDOM NUMBER SEED     1590392230
+Info: RANDOM NUMBER SEED     1590531701
 Info: USE HYDROGEN BONDS?    NO
 Info: COORDINATE PDB         MBDLG.G2843Q_autopsf.pdb
 Info: STRUCTURE FILE         MBDLG.G2843Q_autopsf.psf
@@ -87,9 +87,9 @@ Info: 6 CROSSTERM
 Info: 190 VDW
 Info: 0 VDW_PAIRS
 Info: 0 NBTHOLE_PAIRS
-Info: TIME FOR READING PSF FILE: 0.039016
+Info: TIME FOR READING PSF FILE: 0.039536
 Info: Reading pdb file MBDLG.G2843Q_autopsf.pdb
-Info: TIME FOR READING PDB FILE: 0.00183201
+Info: TIME FOR READING PDB FILE: 0.00184894
 Info: 
 Info: ****************************
 Info: STRUCTURE SUMMARY:
@@ -109,10 +109,10 @@ Info: TOTAL MASS = 9338.41 amu
 Info: TOTAL CHARGE = -4 e
 Info: *****************************
 Info: 
-Info: Entering startup at 0.0668731 s, 52.1484 MB of memory in use
-Info: Startup phase 0 took 0.03037 s, 52.1484 MB of memory in use
+Info: Entering startup at 0.0622489 s, 52.1484 MB of memory in use
+Info: Startup phase 0 took 0.0302539 s, 52.1484 MB of memory in use
 Info: ADDED 7143 IMPLICIT EXCLUSIONS
-Info: Startup phase 1 took 0.032934 s, 52.7188 MB of memory in use
+Info: Startup phase 1 took 0.0313802 s, 52.7188 MB of memory in use
 Info: NONBONDED TABLE R-SQUARED SPACING: 0.0625
 Info: NONBONDED TABLE SIZE: 769 POINTS
 Info: ABSOLUTE IMPRECISION IN FAST TABLE ENERGY: 2.53117e-21 AT 11.9974
@@ -124,10 +124,10 @@ Info: INCONSISTENCY IN VDWA TABLE ENERGY VS FORCE: 0.0040507 AT 0.251946
 Info: ABSOLUTE IMPRECISION IN VDWB TABLE ENERGY: 1.53481e-26 AT 11.9974
 Info: RELATIVE IMPRECISION IN VDWB TABLE ENERGY: 7.96691e-18 AT 11.9974
 Info: INCONSISTENCY IN VDWB TABLE ENERGY VS FORCE: 0.00150189 AT 0.251946
-Info: Startup phase 2 took 0.0328181 s, 54.0898 MB of memory in use
-Info: Startup phase 3 took 0.030422 s, 54.0898 MB of memory in use
-Info: Startup phase 4 took 0.0304179 s, 54.0898 MB of memory in use
-Info: Startup phase 5 took 0.0304041 s, 54.0898 MB of memory in use
+Info: Startup phase 2 took 0.0312879 s, 54.0898 MB of memory in use
+Info: Startup phase 3 took 0.030252 s, 54.0898 MB of memory in use
+Info: Startup phase 4 took 0.0302479 s, 54.0898 MB of memory in use
+Info: Startup phase 5 took 0.0302491 s, 54.0898 MB of memory in use
 Info: ORIGINAL ATOMS MINMAX IS -22.068 -23.358 -26.888  20.188 9.248 1.597
 Info: ADJUSTED ATOMS MINMAX IS -15.1052 -15.0791 -21.989  15.2372 5.90212 -1.489
 Info: PATCH GRID IS 3 BY 2 BY 2
@@ -139,16 +139,16 @@ Info: TORUS B SIZE 1 USING 0
 Info: TORUS C SIZE 1 USING 0
 Info: TORUS MINIMAL MESH SIZE IS 1 BY 1 BY 1
 Info: Placed 100% of base nodes on same physical node as patch
-Info: Startup phase 6 took 0.03212 s, 54.3789 MB of memory in use
-Info: Startup phase 7 took 0.030431 s, 54.3789 MB of memory in use
-Info: Startup phase 8 took 0.030421 s, 54.3789 MB of memory in use
+Info: Startup phase 6 took 0.0309939 s, 54.3789 MB of memory in use
+Info: Startup phase 7 took 0.0302532 s, 54.3789 MB of memory in use
+Info: Startup phase 8 took 0.0302508 s, 54.3789 MB of memory in use
 LDB: Central LB being created...
-Info: Startup phase 9 took 0.0304461 s, 54.3789 MB of memory in use
+Info: Startup phase 9 took 0.0302682 s, 54.3789 MB of memory in use
 Info: CREATING 127 COMPUTE OBJECTS
-Info: Startup phase 10 took 0.031168 s, 54.6367 MB of memory in use
-Info: Startup phase 11 took 0.0304139 s, 54.6367 MB of memory in use
-Info: Startup phase 12 took 0.000226021 s, 56.3594 MB of memory in use
-Info: Finished startup at 0.439465 s, 56.3594 MB of memory in use
+Info: Startup phase 10 took 0.0306108 s, 54.6367 MB of memory in use
+Info: Startup phase 11 took 0.030251 s, 54.6367 MB of memory in use
+Info: Startup phase 12 took 0.000102997 s, 56.3594 MB of memory in use
+Info: Finished startup at 0.428651 s, 56.3594 MB of memory in use
 
 TCL: Minimizing for 500 steps
 Warning: Low global exclusion count!  (7128 vs 7143)
@@ -278,9 +278,9 @@ Warning: This warning is not unusual during minimization.
 Warning: Increasing pairlistdist or cutoff may avoid this.
 ENERGY:      19    112327.4694       928.1758       272.5432        18.7551          -1189.6094      1126.0205         0.0000         0.0000         0.0000         113483.3547         0.0000    113483.3547    113483.3547         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 0.613017
-LDB: ============== END OF LOAD BALANCING =============== 0.613044
-LDB: =============== DONE WITH MIGRATION ================ 0.643461
+LDB: ============= START OF LOAD BALANCING ============== 0.598257
+LDB: ============== END OF LOAD BALANCING =============== 0.598282
+LDB: =============== DONE WITH MIGRATION ================ 0.628546
 MINIMIZER RESTARTING CONJUGATE GRADIENT ALGORITHM DUE TO POOR PROGRESS
 LINE MINIMIZER REDUCING GRADIENT FROM 2.53005e+08 TO 253005
 Warning: Low global exclusion count!  (7128 vs 7143)
@@ -857,15 +857,15 @@ Warning: This warning is not unusual during minimization.
 Warning: Increasing pairlistdist or cutoff may avoid this.
 ENERGY:      99     21989.0636      1678.6177       286.2328        20.1673          -1237.1298       971.8723         0.0000         0.0000         0.0000          23708.8238         0.0000     23708.8238     23708.8238         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 1.03833
-LDB: ============== END OF LOAD BALANCING =============== 1.03835
-LDB: =============== DONE WITH MIGRATION ================ 1.2204
+LDB: ============= START OF LOAD BALANCING ============== 1.02854
+LDB: ============== END OF LOAD BALANCING =============== 1.02856
+LDB: =============== DONE WITH MIGRATION ================ 1.20988
 MINIMIZER RESTARTING CONJUGATE GRADIENT ALGORITHM DUE TO POOR PROGRESS
 LINE MINIMIZER REDUCING GRADIENT FROM 6.51665e+06 TO 6516.65
 Warning: Low global exclusion count!  (7137 vs 7143)
 Warning: This warning is not unusual during minimization.
 Warning: Increasing pairlistdist or cutoff may avoid this.
-Info: Initial time: 1 CPUs 0.00506964 s/step 0.0586764 days/ns 58.2695 MB memory
+Info: Initial time: 1 CPUs 0.00508629 s/step 0.0588691 days/ns 58.2695 MB memory
 ETITLE:      TS           BOND          ANGLE          DIHED          IMPRP               ELECT            VDW       BOUNDARY           MISC        KINETIC               TOTAL           TEMP      POTENTIAL         TOTAL3        TEMPAVG
 
 ENERGY:     100     21480.7995      1695.0712       286.1729        21.6080          -1238.0111       962.6123         0.0000         0.0000         0.0000          23208.2526         0.0000     23208.2526     23208.2526         0.0000
@@ -997,9 +997,9 @@ Warning: This warning is not unusual during minimization.
 Warning: Increasing pairlistdist or cutoff may avoid this.
 ENERGY:     119     13743.0497      1880.5352       301.0115        41.9725          -1257.6721       799.0453         0.0000         0.0000         0.0000          15507.9421         0.0000     15507.9421     15507.9421         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 1.32506
-LDB: ============== END OF LOAD BALANCING =============== 1.32507
-LDB: =============== DONE WITH MIGRATION ================ 1.35544
+LDB: ============= START OF LOAD BALANCING ============== 1.31128
+LDB: ============== END OF LOAD BALANCING =============== 1.3113
+LDB: =============== DONE WITH MIGRATION ================ 1.34155
 Warning: Low global exclusion count!  (7140 vs 7143)
 Warning: This warning is not unusual during minimization.
 Warning: Increasing pairlistdist or cutoff may avoid this.
@@ -1422,10 +1422,10 @@ ENERGY:     198      8482.4984      1727.9456       321.5162        42.5937     
 
 ENERGY:     199      8494.5084      1707.4032       320.2287        83.0227          -1292.1816       538.8985         0.0000         0.0000         0.0000           9851.8799         0.0000      9851.8799      9851.8799         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 1.74328
-LDB: ============== END OF LOAD BALANCING =============== 1.74331
-LDB: =============== DONE WITH MIGRATION ================ 1.89503
-Info: Initial time: 1 CPUs 0.00493099 s/step 0.0570716 days/ns 58.2695 MB memory
+LDB: ============= START OF LOAD BALANCING ============== 1.7344
+LDB: ============== END OF LOAD BALANCING =============== 1.73442
+LDB: =============== DONE WITH MIGRATION ================ 1.88554
+Info: Initial time: 1 CPUs 0.00494129 s/step 0.0571908 days/ns 58.2695 MB memory
 ETITLE:      TS           BOND          ANGLE          DIHED          IMPRP               ELECT            VDW       BOUNDARY           MISC        KINETIC               TOTAL           TEMP      POTENTIAL         TOTAL3        TEMPAVG
 
 ENERGY:     200      8532.0945      1686.1874       321.6331       145.6874          -1291.2049       505.2070         0.0000         0.0000         0.0000           9899.6045         0.0000      9899.6045      9899.6045         0.0000
@@ -1726,11 +1726,11 @@ ENERGY:     298      4259.9724      1518.5363       354.9996        40.6609     
 
 ENERGY:     299      4229.0038      1513.2663       357.5113        38.6410          -1331.0608       269.8289         0.0000         0.0000         0.0000           5077.1906         0.0000      5077.1906      5077.1906         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 2.37711
-LDB: ============== END OF LOAD BALANCING =============== 2.37713
-LDB: =============== DONE WITH MIGRATION ================ 2.52886
+LDB: ============= START OF LOAD BALANCING ============== 2.3754
+LDB: ============== END OF LOAD BALANCING =============== 2.37542
+LDB: =============== DONE WITH MIGRATION ================ 2.52651
 LINE MINIMIZER BRACKET: DX 0.000297149 0.000297149 DU -35.1662 27.145 DUDX -207901 -22222.9 216675 
-Info: Initial time: 1 CPUs 0.00480884 s/step 0.0556579 days/ns 58.2695 MB memory
+Info: Initial time: 1 CPUs 0.00489789 s/step 0.0566885 days/ns 58.2695 MB memory
 ETITLE:      TS           BOND          ANGLE          DIHED          IMPRP               ELECT            VDW       BOUNDARY           MISC        KINETIC               TOTAL           TEMP      POTENTIAL         TOTAL3        TEMPAVG
 
 ENERGY:     300      4255.7482      1517.8272       355.2753        40.2346          -1330.6471       211.2572         0.0000         0.0000         0.0000           5049.6954         0.0000      5049.6954      5049.6954         0.0000
@@ -2035,11 +2035,11 @@ ENERGY:     398      1917.3400      1207.8564       351.6421        29.3779     
 
 ENERGY:     399      1887.2064      1252.3562       352.3608        35.0271          -1411.2801        45.2982         0.0000         0.0000         0.0000           2160.9687         0.0000      2160.9687      2160.9687         0.0000
 
-LDB: ============= START OF LOAD BALANCING ============== 3.0121
-LDB: ============== END OF LOAD BALANCING =============== 3.01213
-LDB: =============== DONE WITH MIGRATION ================ 3.16389
+LDB: ============= START OF LOAD BALANCING ============== 3.01926
+LDB: ============== END OF LOAD BALANCING =============== 3.01928
+LDB: =============== DONE WITH MIGRATION ================ 3.17041
 LINE MINIMIZER BRACKET: DX 0.000669092 0.000669092 DU -11.6431 34.6514 DUDX -50929.1 16347.4 90013.3 
-Info: Benchmark time: 1 CPUs 0.00483709 s/step 0.0559848 days/ns 58.2695 MB memory
+Info: Benchmark time: 1 CPUs 0.00492724 s/step 0.0570283 days/ns 58.2695 MB memory
 ETITLE:      TS           BOND          ANGLE          DIHED          IMPRP               ELECT            VDW       BOUNDARY           MISC        KINETIC               TOTAL           TEMP      POTENTIAL         TOTAL3        TEMPAVG
 
 ENERGY:     400      1928.4419      1198.4967       351.2826        28.5517          -1407.8861        26.1080         0.0000         0.0000         0.0000           2124.9948         0.0000      2124.9948      2124.9948         0.0000
@@ -2346,7 +2346,7 @@ ENERGY:     499       842.6146       801.5903       357.1797        29.1079     
 
 LINE MINIMIZER BRACKET: DX 6.30043e-05 0.000424075 DU -0.395747 17.8797 DUDX -12527 -32.7432 84484.5 
 LINE MINIMIZER REDUCING GRADIENT FROM 163834 TO 163.834
-Info: Benchmark time: 1 CPUs 0.00479072 s/step 0.0554481 days/ns 58.5703 MB memory
+Info: Benchmark time: 1 CPUs 0.00494707 s/step 0.0572578 days/ns 58.5703 MB memory
 ETITLE:      TS           BOND          ANGLE          DIHED          IMPRP               ELECT            VDW       BOUNDARY           MISC        KINETIC               TOTAL           TEMP      POTENTIAL         TOTAL3        TEMPAVG
 
 ENERGY:     500       842.6146       801.5903       357.1797        29.1079          -1525.2620       -85.3383         0.0000         0.0000         0.0000            419.8922         0.0000       419.8922       419.8922         0.0000
@@ -2360,9 +2360,9 @@ FINISHED WRITING RESTART VELOCITIES
 The last velocity output (seq=500) takes 0.004 seconds, 58.570 MB of memory in use
 WRITING EXTENDED SYSTEM TO OUTPUT FILE AT STEP 500
 WRITING COORDINATES TO OUTPUT FILE AT STEP 500
-The last position output (seq=-2) takes 0.007 seconds, 58.727 MB of memory in use
+The last position output (seq=-2) takes 0.005 seconds, 58.727 MB of memory in use
 WRITING VELOCITIES TO OUTPUT FILE AT STEP 500
-The last velocity output (seq=-2) takes 0.005 seconds, 58.727 MB of memory in use
+The last velocity output (seq=-2) takes 0.004 seconds, 58.727 MB of memory in use
 ====================================================
 
-WallClock: 3.774854  CPUTime: 2.550703  Memory: 58.726562 MB
+WallClock: 3.788027  CPUTime: 2.564823  Memory: 58.726562 MB
