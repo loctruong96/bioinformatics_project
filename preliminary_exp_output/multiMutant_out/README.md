@@ -1,2 +1,7 @@
-Output from multiMutant reside here. Note, 2DM8 is the ligand short hand I made for ease of coding, G is the chain, 2837:2843 is the start and end residues. Start and end residue is the same for all pbd files.
+This is the preliminary experiment output folder. 
 
+additional_EM_logs folder contains EM logs that are not included in multiMutant pipeline, it is avaiable should we need it.
+
+exp_src_pdb contains original PDB files that were used in this experiment.
+
+multiMutant_out contains output from multiMutant pipeline. There are further instructions inside this folder.
