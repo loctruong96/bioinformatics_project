@@ -1,7 +1,8 @@
-This is the preliminary experiment output folder. 
+Output from multiMutant resides here. Note, 2DM8 is the protein name(short hand I made), G is the chain, 2837:2843 is the start and end residues. Start and end residue is the same for all pbd files.
 
-additional_EM_logs folder contains EM logs that are not included in multiMutant pipeline, it is avaiable should we need it.
+Filip notes Analysis will involve the EM log file(s) and at minimum the following two rigidity analysis files:
+*.pdb_postPG_MetricsBBH.txt, *.pdb_MetricsPDB.txt
 
-exp_src_pdb contains original PDB files that were used in this experiment.
-
-multiMutant_out contains output from multiMutant pipeline. There are further instructions inside this folder.
+Rigidity analysis files can be found at directory for each output folder like EXAMPLE below.
+1CRNA3:7_out/1CRN.A3A/1CRN.A.ra.out_RA/1CRN.A.processed.pdb/user/ 1CRN.A.processed.pdb_postPG_MetricsBBH.txt
+1CRNA3:7_out/1CRN.A3A/1CRN.A.ra.out_RA/1CRN.A.ra.out/1CRN.A.processed.pdb/user/ 1CRN.A.processed.pdb_postPG_MetricsBBH.txt
