@@ -4,8 +4,16 @@ import csv
 
 
 #Input configuration
-dir = "./preliminary_exp_output/multiMutant_out/"
+dir = "./preliminary_exp_output/"
 pdbID = sys.argv[1].upper()
+outFilename = pdbID+"_raw_ra_bond_data.csv"
+if(len(sys.argv) > 2):
+    if sys.argv[2] == "-b":
+        dir += "baselines/"
+        outFilename = "base_"+outFilename
+
+dir += "multiMutant_out/"
+
 tmp = os.listdir(dir)
 mutName = ""
 for folder in tmp:
@@ -16,7 +24,6 @@ dir+=mutName
 #example dir: "/preliminary_exp_output/multiMutant_out/2DM8G2837:2843_out/"
 
 #Output configuration
-outFilename = pdbID+"_raw_ra_bond_data.csv"
 columns = ["PDBID", "MUTATION", "CONSTRAINT", "COUNT"]
 
 outDir = "processed_data/"+pdbID

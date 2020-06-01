@@ -4,13 +4,18 @@ import csv
 
 
 #Input configuration
-dir = "./preliminary_exp_output"
+dir = "./preliminary_exp_output/"
 pdbID = sys.argv[1].upper()
-dir +="/additional_EM_logs/"+pdbID+"_EM_logs/"
+outFilename = pdbID+"_raw_em_step_data.csv"
+if(len(sys.argv) > 2):
+    if sys.argv[2] == "-b":
+        dir += "baselines/"
+        outFilename = "base_"+outFilename
 
+dir +="additional_EM_logs/"+pdbID+"_EM_logs/"
 
 #Output configuration
-outFilename = pdbID+"_raw_em_step_data.csv"
+
 columns = ["PDBID", "MUTATION", "TS", "BOND", "ANGLE", "DIHED", "IMPRP", "ELECT", "VDW", "BOUNDARY", "MISC", "KINETIC", "TOTAL", "TEMP", "POTENTIAL", "TOTAL3", "TEMPAVG"]
 
 outDir = "processed_data/"+pdbID

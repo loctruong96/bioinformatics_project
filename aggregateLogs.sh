@@ -11,6 +11,7 @@ do
     for s in $SCRIPTS;
     do
         python ./$s ${splitFileName[0]}
+        python ./$s ${splitFileName[0]} -b
     done
 done    
 
