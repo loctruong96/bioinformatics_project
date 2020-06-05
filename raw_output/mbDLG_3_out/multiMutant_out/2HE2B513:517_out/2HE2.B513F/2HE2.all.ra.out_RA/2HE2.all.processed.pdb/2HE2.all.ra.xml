@@ -1,0 +1,30 @@
+<kinariMol-config>
+  <input>
+    <pdb path="2HE2.all.cur.out/2HE2.all.processed.pdb.knr" />
+    <bondfiles singleCovBonds="2HE2.all.cur.out/2HE2.all.SingleCovBonds.Pruned.bnd.knr" 
+	       doubleCovBonds="2HE2.all.cur.out/2HE2.all.DoubleCovBonds.Pruned.bnd.knr" 
+	       hBonds="2HE2.all.cur.out/2HE2.all.HBonds.Pruned.bnd.knr" 
+	       hPhobes="2HE2.all.cur.out/2HE2.all.HPhobes.Pruned.bnd.knr" 
+	       rBonds="2HE2.all.cur.out/2HE2.all.RBonds.Pruned.bnd.knr"/>
+  </input>
+  <modeling>
+    <modeler type="BARHEURISTIC" />
+  </modeling>
+  <analysis>
+    <dilutionAnalysis run="false" />
+    <generateMetricsBBH run="true" />
+    <generateMetricsMolFW run="true" />
+    <generateMetricsBBHPDB run="true" />
+  </analysis>
+  <output>
+    <outputDir path="2HE2.all.ra.out/" />
+    <mol-fr-xml output="true" /> 
+    <mol-fr-pdb output="true" /> 
+    <result-pdb output="true" /> 
+    <pre-peb-game-bbh output="true" /> 
+    <post-peb-game-bbh output="true" /> 
+    <pre-peb-game-assoc-graph output="true" /> 
+    <post-peb-game-assoc-graph output="true" /> 
+    <rigid-cluster-decomposition output="true" /> 
+  </output>
+</kinariMol-config>
