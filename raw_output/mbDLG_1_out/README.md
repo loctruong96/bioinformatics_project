@@ -1,4 +1,4 @@
-This is the preliminary experiment output folder. 
+This is the mbDLG-1 pdb files raw output folder. 
 
 additional_EM_logs folder contains EM logs that are not included in multiMutant pipeline, it is avaiable should we need it.
 
