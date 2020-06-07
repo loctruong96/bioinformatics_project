@@ -126,7 +126,6 @@ for pdb in pdbList:
     for mutant in data:
         
         for i in range(len(percentThresholds)):
-            columns.append( data[mutant]["STEPS_MT_"+percentThresholds[i]])
             if data[mutant]["STEPS_MT_"+percentThresholds[i]] == 1000:
                 data[mutant]["STEPS_MT_"+percentThresholds[i]] = -1
                 
