@@ -14,7 +14,7 @@ for group in groups.keys():
             dir = "../"+group+"/"+pdbID+"/"
             baselineFile = dir+"base_"+pdbID+"_em_metrics"
             metricsFile = dir+pdbID+"_em_metrics"
-            outputFile = dir+pdbID+"_normalized_em_metrics"
+            outputFile = dir+pdbID+"_refined_em_metrics"
             if(i == 1):
                 metricsFile += "_2"
                 outputFile += "_2"
