@@ -79,8 +79,6 @@ for pdb in pdbList:
                 data[row[1]]["STEPS_WT_"+percentThresholds[i]] = 1000
                 data[row[1]]["STEPS_WT10_"+percentThresholds[i]] = 1000
                 
-                # data[row[1]]["MT_"+percentThresholds[i]] = 0
-                # data[row[1]]["MT10_"+percentThresholds[i]] = 0
                 
             data[row[1]]["PDBID"] = pdb
             data[row[1]]["MUTATION"] = row[1]
