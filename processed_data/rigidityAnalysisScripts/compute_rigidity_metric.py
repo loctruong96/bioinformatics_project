@@ -1,5 +1,9 @@
 import mpu.pd
 import csv
+import os
+import statistics
+from scipy.special import softmax
+import numpy as np
 
 def process_csv(list_of_csv):
     results = {}
@@ -15,39 +19,78 @@ def process_csv(list_of_csv):
     return results
 
 
-baselines_files = ['base_2DM8_raw_ra_cluster_data.csv',
-                   'base_3RL7_raw_ra_cluster_data.csv',
-                   'base_MBDLG_raw_ra_cluster_data.csv']
-mutation_files = ['2DM8_raw_ra_cluster_data.csv',
-                  '3RL7_raw_ra_cluster_data.csv',
-                  'MBDLG_raw_ra_cluster_data.csv']
+def get_ra_csv(pdbs=None, path='../mbDLG_1/'):
+    baselines_files = []
+    mutation_files = []
+    for pdb in pdbs:
+        tmp_baseline_file = os.path.join(path, f'{pdb}/base_{pdb}_raw_ra_cluster_data.csv')
+        assert os.path.exists(tmp_baseline_file), f'{tmp_baseline_file} does not exists'
+        tmp_mutation_file = os.path.join(path, f'{pdb}/{pdb}_raw_ra_cluster_data_2.csv')
+        assert os.path.exists(tmp_mutation_file), f'{tmp_mutation_file} does not exists'
+        baselines_files.append(tmp_baseline_file)
+        mutation_files.append(tmp_mutation_file)
+    return baselines_files, mutation_files
 
+
+def compute_ra_metric(baselines=None, mutation=None):
+    final_results = {}
+    abs_final_results = {}
+    for PDB in baselines:
+        WT = baselines[PDB][baseline_id]
+        final_results[PDB] = {}
+        abs_final_results[PDB] = {}
+        for mut in mutation[PDB]:
+            LRC = max(mutation[PDB][mut].keys())
+            final_results[PDB][mut] = 0
+            abs_final_results[PDB][mut] = 0
+            for i in range(1, LRC + 1):
+                WT_i = 0
+                Mut_i = 0
+                if i in mutation[PDB][mut]:
+                    Mut_i = mutation[PDB][mut][i]
+                if i in WT:
+                    WT_i = WT[i]
+                final_results[PDB][mut] += i * (WT_i - Mut_i)
+                abs_final_results[PDB][mut] += i * abs(WT_i - Mut_i)
+    return final_results, abs_final_results
+
+
+def write_csv(header=None, data=None, csv_path=None):
+    with open(csv_path, 'w', newline='') as csv_file:
+        wr = csv.writer(csv_file, quoting=csv.QUOTE_NONNUMERIC)
+        wr.writerow(header)
+        for row in data:
+            wr.writerow(row)
+
+
+# parameters
+group_path = '../mbDLG_3/'
+baseline_id = 'B513H'
+targets_pdb = ['2HE2', 'MBDLG3']
+
+print(f'Processing {group_path}')
+baselines_files, mutation_files = get_ra_csv(pdbs=targets_pdb, path=group_path)
 baselines = process_csv(baselines_files)
 mutation = process_csv(mutation_files)
-results = {}
-for PDB in baselines:
-    WT = baselines[PDB]['G2837S']
-    results[PDB] = {}
-    for mut in mutation[PDB]:
-        LRC = max(mutation[PDB][mut].keys())
-        results[PDB][mut] = 0
-        for i in range(1, LRC+1):
-            WT_i = 0
-            Mut_i = 0
-            if i in mutation[PDB][mut]:
-                Mut_i = mutation[PDB][mut][i]
-            if i in WT:
-                WT_i = WT[i]
-            results[PDB][mut] += i * (WT_i - Mut_i)
-
-csv_header = ['PDB', 'MUTATION', 'RIGIDITY_METRIC']
-for PDB in results:
+final_results, abs_final_results = compute_ra_metric(baselines=baselines, mutation=mutation)
+csv_header = ('PDB', 'MUTATION', 'RIGIDITY_METRIC', 'NORMALIZED_RA_METRIC', 'Z_SCORE')
+print(f'Best prediction by norm_ra {csv_header}')
+for pdb in final_results:
     csv_rows = []
-    for mut in results[PDB]:
-        row = [PDB, mut, results[PDB][mut]]
+    all_abs_items = abs_final_results[pdb].items()
+    all_abs_values = [item[1] for item in all_abs_items]
+    all_abs_keys = [item[0] for item in all_abs_items]
+    abs_stdev = statistics.stdev(all_abs_values)
+    abs_mean = statistics.mean(all_abs_values)
+    abs_softmax = softmax(all_abs_values)
+    best = ("", -1, -1, -1)
+    for i, mut in enumerate(all_abs_keys):
+        z_score = (abs_final_results[pdb][mut] - abs_mean) / abs_stdev
+        ra_norm = abs_softmax[i]
+        row = (pdb, mut, final_results[pdb][mut], ra_norm, z_score)
+        if ra_norm > best[3]:
+            best = row
         csv_rows.append(row)
-    with open(f'{PDB}_rigidity_metric.csv', 'w', newline='') as csv_file:
-        wr = csv.writer(csv_file, quoting=csv.QUOTE_NONNUMERIC)
-        wr.writerow(csv_header)
-        for row in csv_rows:
-            wr.writerow(row)
+    print(f'Best prediction by norm_ra {best}')
+    csv_path = os.path.join(group_path, f'{pdb}/{pdb}_rigidity_metric_2.csv')
+    write_csv(header=csv_header, data=csv_rows, csv_path=csv_path)
