@@ -49,8 +49,8 @@ ligandLength = {
 }
 
 ligand = {
-    "mbDLG_1": "SYLVTSV"
-    "mbDLG_2": "YLVTSV"
+    "mbDLG_1": "SYLVTSV",
+    "mbDLG_2": "YLVTSV",
     "mbDLG_3": "HETSV"
 }
 
@@ -101,4 +101,4 @@ for group in groups.keys():
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   
 
-        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/single"+pdbID+'_EM.png')
+        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/single/"+pdbID+'_EM.png')

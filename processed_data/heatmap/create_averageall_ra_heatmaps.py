@@ -41,8 +41,8 @@ groups = {
 }
 
 ligand = {
-    "mbDLG_1": "SYLVTSV"
-    "mbDLG_2": "YLVTSV"
+    "mbDLG_1": "SYLVTSV",
+    "mbDLG_2": "YLVTSV",
     "mbDLG_3": "HETSV"
 }
 
