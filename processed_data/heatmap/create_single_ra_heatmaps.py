@@ -5,6 +5,33 @@ plt.rcParams.update({'font.size': 5})
 import pandas as pd
 import numpy as np
 
+def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
+        fig, ax = plt.subplots()
+        im = ax.imshow(data)
+        ax.figure.colorbar(im, ax=ax, orientation='horizontal')
+
+        # We want to show all ticks...
+        ax.set_xticks(np.arange(len(xAxisLabels)))
+        ax.set_yticks(np.arange(len(yAxisLabels)))
+
+        # ... and label them with the respective list entries
+        ax.set_xticklabels(xAxisLabels)
+        ax.set_yticklabels(yAxisLabels)
+
+        # Rotate the tick labels and set their alignment.
+        plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+                rotation_mode="anchor")
+
+        # Loop over data dimensions and create text annotations.
+        for i in range(len(yAxisLabels)):
+            for j in range(len(xAxisLabels)):
+                text = ax.text(j, i, round(data[i, j], 2),
+                            ha="center", va="center", color="w")
+
+        ax.set_title(title)
+        fig.tight_layout()
+        plt.savefig(outputFile)
+
 
 
 groups = {
@@ -17,6 +44,12 @@ ligandLength = {
     "mbDLG_1": 7,
     "mbDLG_2": 6,
     "mbDLG_3": 5
+}
+
+ligand = {
+    "mbDLG_1": "SYLVTSV"
+    "mbDLG_2": "YLVTSV"
+    "mbDLG_3": "HETSV"
 }
 
 firstResidueNum = {
@@ -86,27 +119,7 @@ for group in groups.keys():
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   
 
-        fig, ax = plt.subplots()
-        im = ax.imshow(data)
-        ax.figure.colorbar(im, ax=ax, orientation='horizontal')
-        # We want to show all ticks...
-        ax.set_xticks(np.arange(len(aminoAcids)))
-        ax.set_yticks(np.arange(len(yAxisLabels)))
-        # ... and label them with the respective list entries
-        ax.set_xticklabels(aminoAcids)
-        ax.set_yticklabels(yAxisLabels)
-        # ax.xaxis.tick_top()
-        # Rotate the tick labels and set their alignment.
-        plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-                rotation_mode="anchor")
 
-        # Loop over data dimensions and create text annotations.
-        for i in range(len(yAxisLabels)):
-            for j in range(len(aminoAcids)):
-                text = ax.text(j, i, round(data[i, j], 2),
-                            ha="center", va="center", color="w")
 
-        ax.set_title(pdbID + " Rigidity Metric")
-        fig.tight_layout()
-        plt.savefig("output/"+pdbID+'_RA.png')
+        createHeatmap(data, pdbID + " Rigidity Metric", aminoAcids, yAxisLabels, "output/single/"+pdbID+'_RA.png')
 
