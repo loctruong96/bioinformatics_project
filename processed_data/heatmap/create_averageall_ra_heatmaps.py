@@ -18,6 +18,9 @@ def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
         ax.set_xticklabels(xAxisLabels)
         ax.set_yticklabels(yAxisLabels)
 
+        ax.set_ylabel('Residue ID (WT)')
+        ax.set_xlabel('Mutated Amino Acids')
+
         # Rotate the tick labels and set their alignment.
         plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
                 rotation_mode="anchor")
@@ -46,6 +49,12 @@ ligand = {
     "mbDLG_3": "HETSV"
 }
 
+ligandBranch = {
+    "mbDLG_1": "G",
+    "mbDLG_2": "B",
+    "mbDLG_3": "B"
+}
+
 ligandLength = {
     "mbDLG_1": 7,
     "mbDLG_2": 6,
@@ -63,7 +72,13 @@ aminoAcids = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
 
 for group in groups.keys():
 
-    yAxisLabels = range(firstResidueNum[group],firstResidueNum[group]+ligandLength[group])
+    yAxisLabels = []
+    N = ligandLength[group]
+    for i in range(N):
+            branch = ligandBranch[group]
+            residueNum = str(firstResidueNum[group] + i)
+            ligandWT = f" ({ligand[group][i]})"
+            yAxisLabels.append(branch+residueNum+ligandWT)
 
     for pdbID in groups[group]:
         dir = "../"+group+"/"+pdbID+"/"

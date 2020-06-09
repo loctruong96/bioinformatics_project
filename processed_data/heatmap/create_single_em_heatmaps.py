@@ -57,8 +57,6 @@ ligandBranch = {
     "mbDLG_3": "B"
 }
 
-
-
 ligand = {
     "mbDLG_1": "SYLVTSV",
     "mbDLG_2": "YLVTSV",
