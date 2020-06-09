@@ -36,8 +36,8 @@ for group in groups.keys():
             sm = softmax(D_WT10_95.abs())
             std = np.std(D_WT10_95.abs())
 
-            norm = D_WT10_95.abs() / std
-
+            #norm = D_WT10_95.abs() / std
+            norm = D_WT10_95.abs()
             norm = norm / np.max(norm)
 
             # print("std")
