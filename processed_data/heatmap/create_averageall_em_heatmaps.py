@@ -118,6 +118,8 @@ for group in groups.keys():
 
         heatmapData /= heatmapDataCount
 
+        heatmapData /= np.max(heatmapData)
+
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   
 

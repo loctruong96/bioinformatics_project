@@ -69,7 +69,7 @@ for group in groups.keys():
         dir = "../"+group+"/"+pdbID+"/"
 
         singleMutationFile = pd.read_csv(dir+pdbID+"_rigidity_metric.csv")
-        doubleMutationFile = pd.read_csv(dir+pdbID+"_rigidity_metric_2.csv")
+
 
 
         heatmapData = np.zeros([20, ligandLength[group]])
@@ -92,29 +92,13 @@ for group in groups.keys():
             heatmapData[aaNum, resNum] += value
             heatmapDataCount[aaNum, resNum] += 1
         
-        for index, row in doubleMutationFile.iterrows():
-            mutation = row[1] # G2842A.G2843T
-            mutations = mutation.split(".")
-            
-            value = np.abs(row[4])
 
-            for mut in mutations:
-                #mut = G2842A
-                aa = mut[-1]
-
-                #X coordinate
-                aaNum = aminoAcids.index(aa)
-
-                #Y coordinate
-                resNum = int(mut[1:-1])
-                resNum -= firstResidueNum[group]
-                
-                heatmapData[aaNum, resNum] += value
-                heatmapDataCount[aaNum, resNum] += 1
         
         heatmapDataCount[heatmapDataCount == 0] = 1
 
         heatmapData /= heatmapDataCount
+
+        heatmapData /= np.max(heatmapData)
 
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   

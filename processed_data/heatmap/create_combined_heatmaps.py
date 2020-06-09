@@ -5,6 +5,8 @@ plt.rcParams.update({'font.size': 5})
 import pandas as pd
 import numpy as np
 
+
+
 def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
         fig, ax = plt.subplots()
         im = ax.imshow(data)
@@ -40,16 +42,16 @@ groups = {
     "mbDLG_3": ["2HE2", "MBDLG3"]
 }
 
-ligand = {
-    "mbDLG_1": "SYLVTSV",
-    "mbDLG_2": "YLVTSV",
-    "mbDLG_3": "HETSV"
-}
-
 ligandLength = {
     "mbDLG_1": 7,
     "mbDLG_2": 6,
     "mbDLG_3": 5
+}
+
+ligand = {
+    "mbDLG_1": "SYLVTSV",
+    "mbDLG_2": "YLVTSV",
+    "mbDLG_3": "HETSV"
 }
 
 firstResidueNum = {
@@ -68,17 +70,15 @@ for group in groups.keys():
     for pdbID in groups[group]:
         dir = "../"+group+"/"+pdbID+"/"
 
-        singleMutationFile = pd.read_csv(dir+pdbID+"_rigidity_metric.csv")
-        doubleMutationFile = pd.read_csv(dir+pdbID+"_rigidity_metric_2.csv")
+        emMetric = pd.read_csv(dir+pdbID+"_em_metric.csv")
+        raMetric = pd.read_csv(dir+pdbID+"_rigidity_metric.csv")
+        doubleMutationFile = pd.read_csv(dir+pdbID+"_em_metric_2.csv")
 
-
-        heatmapData = np.zeros([20, ligandLength[group]])
-
-        heatmapDataCount = np.zeros([20, ligandLength[group]])
-
-        for index, row in singleMutationFile.iterrows():
+        emheatMap = np.zeros([20, ligandLength[group]])
+        raheatMap = np.zeros([20, ligandLength[group]])
+        for index, row in emMetric.iterrows():
             mutation = row[1] # G2843T
-            value = np.abs(row[4])
+            value = row[3]
 
             aa = mutation[-1]
 
@@ -89,37 +89,34 @@ for group in groups.keys():
             resNum = int(mutation[1:-1])
             resNum -= firstResidueNum[group]
             
-            heatmapData[aaNum, resNum] += value
-            heatmapDataCount[aaNum, resNum] += 1
+            emheatMap[aaNum, resNum] += value
 
-        for index, row in doubleMutationFile.iterrows():
-            mutation = row[1] # G2842A.G2843T
-            mutations = mutation.split(".")
+        for index, row in raMetric.iterrows():
+            mutation = row[1] # G2843T
+            value = row[3]
+
+            aa = mutation[-1]
+
+            #X coordinate
+            aaNum = aminoAcids.index(aa)
+
+            #Y coordinate
+            resNum = int(mutation[1:-1])
+            resNum -= firstResidueNum[group]
             
-            value = np.abs(row[4])
-
-            for mut in mutations:
-                #mut = G2842A
-                aa = mut[-1]
-
-                #X coordinate
-                aaNum = aminoAcids.index(aa)
-
-                #Y coordinate
-                resNum = int(mut[1:-1])
-                resNum -= firstResidueNum[group]
-                
-                heatmapData[aaNum, resNum] += value
-                heatmapDataCount[aaNum, resNum] += 1
-
-        heatmapDataCount[heatmapDataCount == 0] = 1
-
-        heatmapData /= heatmapDataCount
+            raheatMap[aaNum, resNum] += value
+        
+        raheatMap /= np.max(raheatMap)
 
         #This is the 2d array of values for the heatmap
-        data = heatmapData.transpose()   
 
+        combinedHeatMap = emheatMap * raheatMap
 
+        print(pdbID)
+        print(np.max(raheatMap))
+        print(np.max(emheatMap))
+        print(np.max(combinedHeatMap))
+        print("\n")
+        data = combinedHeatMap.transpose()   
 
-        createHeatmap(data, pdbID + " Rigidity Metric", aminoAcids, yAxisLabels, "output/averageAll/"+pdbID+'_RA.png')
-
+        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/combined/"+pdbID+'_combined.png')

@@ -71,7 +71,6 @@ for group in groups.keys():
         dir = "../"+group+"/"+pdbID+"/"
 
         singleMutationFile = pd.read_csv(dir+pdbID+"_em_metric.csv")
-        doubleMutationFile = pd.read_csv(dir+pdbID+"_em_metric_2.csv")
 
 
         heatmapData = np.zeros([20, ligandLength[group]])
