@@ -108,5 +108,5 @@ for group in groups.keys():
 
         ax.set_title(pdbID + " Rigidity Metric")
         fig.tight_layout()
-        plt.savefig("output/"+pdbID+'_RA.pdf')
+        plt.savefig("output/"+pdbID+'_RA.png')
 

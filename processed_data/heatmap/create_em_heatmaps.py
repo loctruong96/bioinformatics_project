@@ -108,5 +108,5 @@ for group in groups.keys():
 
         ax.set_title(pdbID+" Energy Minimization Metric")
         fig.tight_layout()
-        plt.savefig("output/"+pdbID+'_EM.pdf')
+        plt.savefig("output/"+pdbID+'_EM.png')
 
