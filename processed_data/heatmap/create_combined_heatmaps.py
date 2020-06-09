@@ -11,32 +11,16 @@ import numpy as np
 import copy
 
 
-def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
+def createHeatmap(data, min, title, xAxisLabels, yAxisLabels, outputFile):
         fig, ax = plt.subplots()
-        #im = ax.imshow(data)#, norm=matplotlib[:colors][:LogNorm]())
-        '''
-        im = plt.imshow(np.maximum(data, sorted(data.flat)[1]),
-                              interpolation='nearest',
-                              norm = matplotlib.colors.LogNorm(),
-                              cmap = matplotlib.cm.hot)
-        '''
+
         my_cmap = copy.copy(matplotlib.cm.get_cmap('viridis')) # copy the default
         my_cmap.set_bad((0,0,0))
-        im = plt.imshow(data,
-                              norm=matplotlib.colors.LogNorm(vmin=data.min(),
-                                                             vmax=data.max()),
-                              #interpolation='next',
-                              cmap=my_cmap)
 
-
-        print(len(data[data>0]))
+        # im = ax.imshow(data,norm=matplotlib.colors.SymLogNorm(linthresh=min,vmin=data.min(),vmax=data.max()), cmap=my_cmap)
+        im = ax.imshow(data)
         ax.figure.colorbar(im, ax=ax, orientation='horizontal')
-        #norm=matplotlib.colors.LogNorm(vmin=data.min(),
-        #                          vmax=data.max()))
-        '''
-        norm=matplotlib.colors.Normalize(vmin=np.min(data[data>0]),
-                                  vmax=np.max(data)))
-        '''
+
         # We want to show all ticks...
         ax.set_xticks(np.arange(len(xAxisLabels)))
         ax.set_yticks(np.arange(len(yAxisLabels)))
@@ -55,7 +39,10 @@ def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
         # Loop over data dimensions and create text annotations.
         for i in range(len(yAxisLabels)):
             for j in range(len(xAxisLabels)):
-                text = ax.text(j, i, "{:.0e}".format(data[i, j]),
+                valString = "0"
+                if data[i, j] > 0:
+                    valString = "{:.0e}".format(data[i, j])
+                text = ax.text(j, i, valString,
                             ha="center", va="center", color="w")
 
         ax.set_title(title)
@@ -109,11 +96,11 @@ for group in groups.keys():
         dir = "../"+group+"/"+pdbID+"/"
 
         emMetric = pd.read_csv(dir+pdbID+"_em_metric.csv")
-        raMetric = pd.read_csv(dir+pdbID+"_rigidity_metric.csv")
-        doubleMutationFile = pd.read_csv(dir+pdbID+"_em_metric_2.csv")
+        raMetric = pd.read_csv(dir+pdbID+"_rigidity_metric.csv")      
 
-        emheatMap = np.zeros([20, ligandLength[group]]).astype('float64')
-        raheatMap = np.zeros([20, ligandLength[group]]).astype('float64')
+        emheatMap = np.zeros([20, ligandLength[group]])
+        raheatMap = np.zeros([20, ligandLength[group]])
+
         for index, row in emMetric.iterrows():
             mutation = row[1] # G2843T
             value = row[3]
@@ -129,9 +116,10 @@ for group in groups.keys():
 
             emheatMap[aaNum, resNum] += value
 
+
         for index, row in raMetric.iterrows():
             mutation = row[1] # G2843T
-            value = row[3]
+            value = np.abs(row[4])
 
             aa = mutation[-1]
 
@@ -141,25 +129,18 @@ for group in groups.keys():
             #Y coordinate
             resNum = int(mutation[1:-1])
             resNum -= firstResidueNum[group]
-
+            
             raheatMap[aaNum, resNum] += value
+        
+        raheatMap /= raheatMap.max()
 
-        raheatMap /= np.max(raheatMap)
-
-        #This is the 2d array of values for the heatmap
 
         combinedHeatMap = emheatMap * raheatMap
 
-        print(pdbID)
-        print(np.max(raheatMap))
-        print(np.max(emheatMap))
-        print(np.max(combinedHeatMap))
-        print("\n")
         data = combinedHeatMap.transpose()
 
-        x = 10**-50
-        #print("{:.0e}".format(x))
-        #print(2*(10**-39)<x)
-        data[data < x] = 0
-        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/combined/"+pdbID+'_combined.png')
+
+        min = data[data > 0].min()
+
+        createHeatmap(data, min, pdbID+" EM Metric * RA Metric", aminoAcids, yAxisLabels, "output/combined/"+pdbID+'_combined.png')
 

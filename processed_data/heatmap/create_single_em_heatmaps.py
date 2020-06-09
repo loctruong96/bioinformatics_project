@@ -51,10 +51,7 @@ for group in groups.keys():
 
         singleMutationFile = pd.read_csv(dir+pdbID+"_em_metric.csv")
 
-
         heatmapData = np.zeros([20, ligandLength[group]])
-
-        heatmapDataCount = np.zeros([20, ligandLength[group]])
 
         for index, row in singleMutationFile.iterrows():
             mutation = row[1] # G2843T
@@ -70,11 +67,7 @@ for group in groups.keys():
             resNum -= firstResidueNum[group]
 
             heatmapData[aaNum, resNum] += value
-            heatmapDataCount[aaNum, resNum] += 1
 
-        heatmapDataCount[heatmapDataCount == 0] = 1
-
-        heatmapData /= heatmapDataCount
 
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()

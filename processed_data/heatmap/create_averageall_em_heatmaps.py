@@ -102,4 +102,4 @@ for group in groups.keys():
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   
 
-        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/averageAll"+pdbID+'_EM.png')
+        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/averageAll/"+pdbID+'_EM.png')
