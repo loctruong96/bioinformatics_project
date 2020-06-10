@@ -5,7 +5,8 @@ plt.rcParams.update({'font.size': 5})
 import numpy as np
 
 
-def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
+
+def createHeatmap(data, axisData, title, xAxisLabels, yAxisLabels, outputFile):
         fig, ax = plt.subplots()
         im = ax.imshow(data)
         ax.figure.colorbar(im, ax=ax, orientation='horizontal')
@@ -28,10 +29,23 @@ def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
         # Loop over data dimensions and create text annotations.
         for i in range(len(yAxisLabels)):
             for j in range(len(xAxisLabels)):
-                text = ax.text(j, i, round(data[i, j], 2),
+                valString = round(data[i, j], 2)
+
+                if(axisData[0,i,j]):
+                        valString = "["+str(valString)+"]"
+                if(axisData[1,i,j]):
+                        valString = str(valString)+"*"
+
+                if(data[i, j] == 0):
+                        valString = "WT"
+                        if(yAxisLabels[i][0] == "["):
+                                valString = "["+str(valString)+"]"
+                        if(yAxisLabels[i][-1] == "*"):
+                                valString = str(valString)+"*"
+                text = ax.text(j, i, valString,
                             ha="center", va="center", color="w")
 
         ax.set_title(title)
         fig.tight_layout()
-        plt.savefig(outputFile)
+        plt.savefig(outputFile, dpi=300)
 

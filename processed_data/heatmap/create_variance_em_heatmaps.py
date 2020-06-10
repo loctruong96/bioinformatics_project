@@ -33,7 +33,7 @@ def createHeatmap(data, title, xAxisLabels, yAxisLabels, outputFile):
 
         ax.set_title(title)
         fig.tight_layout()
-        plt.savefig(outputFile)
+        plt.savefig(outputFile,dpi=300)
 
 
 
@@ -71,11 +71,46 @@ firstResidueNum = {
 aminoAcids = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
  				    "M", "F", "P", "S", "T", "W", "Y", "V"]
 
+
+bondDataFile = open("../ligandBonds.csv", "r")
+
+bondData = {}
+
+for line in bondDataFile:
+    line = line.split(",")
+    if(line[3].isnumeric()):
+        if(line[0] not in bondData.keys()):
+            bondData[line[0]] = {}
+        if(line[1] not in bondData[line[0]].keys()):
+            bondData[line[0]][line[1]] = {}
+        if(line[2] not in bondData[line[0]][line[1]].keys()):
+            bondData[line[0]][line[1]][line[2]] = [int(line[3]), int(line[4][:1])]
+
+bondDataFile.close()
+
+
 for group in groups.keys():
 
-    yAxisLabels = range(firstResidueNum[group],firstResidueNum[group]+ligandLength[group])
+    #yAxisLabels = range(firstResidueNum[group],firstResidueNum[group]+ligandLength[group])
 
     for pdbID in groups[group]:
+
+        yAxisLabels = []
+        N = ligandLength[group]
+        for i in range(N):
+                branch = ligandBranch[group]
+                residueNum = str(firstResidueNum[group] + i)
+                ligandWT = f" ({ligand[group][i]})"
+                yAxisLabels.append(branch+residueNum+ligandWT)
+
+        for i in range(len(yAxisLabels)):
+            bonds = bondData[pdbID]["WT"][yAxisLabels[i].split(" ")[0]]
+            if(bonds[0]):
+                yAxisLabels[i] = "["+yAxisLabels[i]+"]"
+            if(bonds[1]):
+                yAxisLabels[i] += "*"
+
+
         dir = "../"+group+"/"+pdbID+"/"
 
         doubleMutationFile = pd.read_csv(dir+pdbID+"_em_metric_2.csv")

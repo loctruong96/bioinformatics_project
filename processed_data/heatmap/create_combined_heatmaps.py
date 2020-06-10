@@ -9,9 +9,10 @@ plt.rcParams.update({'font.size': 5})
 import numpy as np
 
 import copy
+from createHeatmap import createHeatmap
 
-
-def createHeatmap(data, min, title, xAxisLabels, yAxisLabels, outputFile):
+'''
+def createHeatmap2(data, min, title, xAxisLabels, yAxisLabels, outputFile):
         fig, ax = plt.subplots()
 
         my_cmap = copy.copy(matplotlib.cm.get_cmap('viridis')) # copy the default
@@ -47,7 +48,9 @@ def createHeatmap(data, min, title, xAxisLabels, yAxisLabels, outputFile):
 
         ax.set_title(title)
         fig.tight_layout()
-        plt.savefig(outputFile)
+        plt.savefig(outputFile, dpi=300)
+'''
+
 
 groups = {
     "mbDLG_1": ["2DM8", "3RL7", "MBDLG"],
@@ -82,17 +85,41 @@ firstResidueNum = {
 aminoAcids = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
  				    "M", "F", "P", "S", "T", "W", "Y", "V"]
 
+bondDataFile = open("../ligandBonds.csv", "r")
+
+bondData = {}
+
+for line in bondDataFile:
+    line = line.split(",")
+    if(line[3].isnumeric()):
+        if(line[0] not in bondData.keys()):
+            bondData[line[0]] = {}
+        if(line[1] not in bondData[line[0]].keys()):
+            bondData[line[0]][line[1]] = {}
+        if(line[2] not in bondData[line[0]][line[1]].keys()):
+            bondData[line[0]][line[1]][line[2]] = [int(line[3]), int(line[4][:1])]
+
+bondDataFile.close()
+
 for group in groups.keys():
 
-    yAxisLabels = []
-    N = ligandLength[group]
-    for i in range(N):
-            branch = ligandBranch[group]
-            residueNum = str(firstResidueNum[group] + i)
-            ligandWT = f" ({ligand[group][i]})"
-            yAxisLabels.append(branch+residueNum+ligandWT)
-
     for pdbID in groups[group]:
+        yAxisLabels = []
+        N = ligandLength[group]
+        for i in range(N):
+                branch = ligandBranch[group]
+                residueNum = str(firstResidueNum[group] + i)
+                ligandWT = f" ({ligand[group][i]})"
+                yAxisLabels.append(branch+residueNum+ligandWT)
+
+        for i in range(len(yAxisLabels)):
+            bonds = bondData[pdbID]["WT"][yAxisLabels[i].split(" ")[0]]
+            if(bonds[0]):
+                yAxisLabels[i] = "["+yAxisLabels[i]+"]"
+            if(bonds[1]):
+                yAxisLabels[i] += "*"
+
+
         dir = "../"+group+"/"+pdbID+"/"
 
         emMetric = pd.read_csv(dir+pdbID+"_em_metric.csv")
@@ -100,6 +127,7 @@ for group in groups.keys():
 
         emheatMap = np.zeros([20, ligandLength[group]])
         raheatMap = np.zeros([20, ligandLength[group]])
+        axisData = np.zeros([20, ligandLength[group], 2])
 
         for index, row in emMetric.iterrows():
             mutation = row[1] # G2843T
@@ -114,6 +142,7 @@ for group in groups.keys():
             resNum = int(mutation[1:-1])
             resNum -= firstResidueNum[group]
 
+            axisData[aaNum, resNum] = bondData[pdbID][mutation][mutation[:-1]]
             emheatMap[aaNum, resNum] += value
 
 
@@ -142,5 +171,5 @@ for group in groups.keys():
 
         min = data[data > 0].min()
 
-        createHeatmap(data, min, pdbID+" EM Metric * RA Metric", aminoAcids, yAxisLabels, "output/combined/"+pdbID+'_combined.png')
+        createHeatmap(data, axisData.transpose(), pdbID+" EM Metric * RA Metric", aminoAcids, yAxisLabels, "output/combined/"+pdbID+'_combined.png')
 

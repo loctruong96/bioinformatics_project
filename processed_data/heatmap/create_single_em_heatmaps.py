@@ -35,23 +35,51 @@ firstResidueNum = {
 aminoAcids = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
  				    "M", "F", "P", "S", "T", "W", "Y", "V"]
 
+
+bondDataFile = open("../ligandBonds.csv", "r")
+
+bondData = {}
+
+for line in bondDataFile:
+    line = line.split(",")
+    if(line[3].isnumeric()):
+        if(line[0] not in bondData.keys()):
+            bondData[line[0]] = {}
+        if(line[1] not in bondData[line[0]].keys()):
+            bondData[line[0]][line[1]] = {}
+        if(line[2] not in bondData[line[0]][line[1]].keys()):
+            bondData[line[0]][line[1]][line[2]] = [int(line[3]), int(line[4][:1])]
+
+bondDataFile.close()
+
+
 for group in groups.keys():
 
-    yAxisLabels = []
-    N = ligandLength[group]
-    for i in range(N):
-            branch = ligandBranch[group]
-            residueNum = str(firstResidueNum[group] + i)
-            ligandWT = f" ({ligand[group][i]})"
-            yAxisLabels.append(branch+residueNum+ligandWT)
-
-
     for pdbID in groups[group]:
+
+        yAxisLabels = []
+        N = ligandLength[group]
+        for i in range(N):
+                branch = ligandBranch[group]
+                residueNum = str(firstResidueNum[group] + i)
+                ligandWT = f" ({ligand[group][i]})"
+                yAxisLabels.append(branch+residueNum+ligandWT)
+
+        for i in range(len(yAxisLabels)):
+            bonds = bondData[pdbID]["WT"][yAxisLabels[i].split(" ")[0]]
+            if(bonds[0]):
+                yAxisLabels[i] = "["+yAxisLabels[i]+"]"
+            if(bonds[1]):
+                yAxisLabels[i] += "*"
+
+
         dir = "../"+group+"/"+pdbID+"/"
 
         singleMutationFile = pd.read_csv(dir+pdbID+"_em_metric.csv")
 
         heatmapData = np.zeros([20, ligandLength[group]])
+
+        axisData = np.zeros([20, ligandLength[group], 2])
 
         for index, row in singleMutationFile.iterrows():
             mutation = row[1] # G2843T
@@ -66,10 +94,11 @@ for group in groups.keys():
             resNum = int(mutation[1:-1])
             resNum -= firstResidueNum[group]
 
+            axisData[aaNum, resNum] = bondData[pdbID][mutation][mutation[:-1]]
             heatmapData[aaNum, resNum] += value
 
 
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()
 
-        createHeatmap(data, pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/single/"+pdbID+'_EM.png')
+        createHeatmap(data, axisData.transpose(), pdbID+" Energy Minimization Metric", aminoAcids, yAxisLabels, "output/single/"+pdbID+'_EM.png')
