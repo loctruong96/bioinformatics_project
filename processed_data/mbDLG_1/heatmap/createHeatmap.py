@@ -36,12 +36,13 @@ def createHeatmap(data, axisData, title, xAxisLabels, yAxisLabels, outputFile):
                 if(axisData[1,i,j]):
                         valString = str(valString)+"*"
 
-                if(data[i, j] == 0):
-                        valString = "WT"
-                        if(yAxisLabels[i][0] == "["):
-                                valString = "["+str(valString)+"]"
-                        if(yAxisLabels[i][-1] == "*"):
-                                valString = str(valString)+"*"
+                # cannot assume value of 0 represents WT.
+                # if(data[i, j] == 0):
+                #         valString = "WT"
+                #         if(yAxisLabels[i][0] == "["):
+                #                 valString = "["+str(valString)+"]"
+                #         if(yAxisLabels[i][-1] == "*"):
+                #                 valString = str(valString)+"*"
                 text = ax.text(j, i, valString,
                             ha="center", va="center", color="w")
 

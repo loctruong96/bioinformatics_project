@@ -86,7 +86,7 @@ for group in groups.keys():
 
         for index, row in singleMutationFile.iterrows():
             mutation = row[1] # G2843T
-            value = np.abs(row[4])
+            value = row[2]
 
             aa = mutation[-1]
 
@@ -107,7 +107,7 @@ for group in groups.keys():
 
         heatmapData /= heatmapDataCount
 
-        heatmapData /= np.max(heatmapData)
+        # heatmapData /= np.max(heatmapData)
 
         #This is the 2d array of values for the heatmap
         data = heatmapData.transpose()   
