@@ -1,0 +1,7 @@
+python3 create_averageall_em_heatmaps.py
+python3 create_single_em_heatmaps.py
+python3 create_variance_em_heatmaps.py
+python3 create_averageall_ra_heatmaps.py
+python3 create_single_ra_heatmaps.py
+python3 create_variance_ra_heatmaps.py
+python3 create_combined_heatmaps.py
